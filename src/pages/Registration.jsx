@@ -136,7 +136,7 @@ function Registration() {
             "myRegistrations",
             JSON.stringify(updatedRegistrations)
         );
-
+        window.dispatchEvent(new Event("registrationsUpdated"));
         setRegistrations(updatedRegistrations);
 
         localStorage.setItem(

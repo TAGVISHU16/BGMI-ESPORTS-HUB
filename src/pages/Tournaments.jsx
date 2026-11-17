@@ -3,6 +3,25 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getTournaments } from "../data/tournamentStorage";
 
+
+const getTournamentSlotInfo = (tournament, registrations) => {
+    const limits = {
+        Solo: 60,
+        Duo: 32,
+        Squad: 16
+    };
+
+    const filled = registrations.filter(
+        (registration) =>
+            Number(registration.tournament?.id) === Number(tournament.id)
+    ).length;
+
+    const maxSlots = limits[tournament.type] || 0;
+    const unit = tournament.type === "Solo" ? "Players" : "Teams";
+
+    return `${filled}/${maxSlots} ${unit}`;
+};
+
 // SKELETON CARD
 function TournamentSkeleton() {
     return (
@@ -29,6 +48,9 @@ function TournamentSkeleton() {
 
 function Tournaments() {
     const [tournaments, setTournaments] = useState(() => getTournaments());
+    const [registrations, setRegistrations] = useState(() =>
+        JSON.parse(localStorage.getItem("myRegistrations") || "[]")
+    );
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -41,13 +63,23 @@ function Tournaments() {
             setTournaments(getTournaments());
         };
 
+        const updateRegistrations = () => {
+            setRegistrations(
+                JSON.parse(localStorage.getItem("myRegistrations") || "[]")
+            );
+        };
+
         window.addEventListener("tournamentsUpdated", updateTournaments);
         window.addEventListener("storage", updateTournaments);
+        window.addEventListener("registrationsUpdated", updateRegistrations);
+        window.addEventListener("storage", updateRegistrations);
 
         return () => {
             clearTimeout(timer);
             window.removeEventListener("tournamentsUpdated", updateTournaments);
             window.removeEventListener("storage", updateTournaments);
+            window.removeEventListener("registrationsUpdated", updateRegistrations);
+            window.removeEventListener("storage", updateRegistrations);
         };
     }, []);
 
@@ -162,8 +194,13 @@ function Tournaments() {
                                 </div>
 
                                 <div>
-                                    <span>Players / Teams</span>
-                                    <strong>{tournament.players}</strong>
+                                    <span>
+                                        {tournament.type === "Solo" ? "Players" : "Teams"}
+                                    </span>
+
+                                    <strong>
+                                        {getTournamentSlotInfo(tournament, registrations)}
+                                    </strong>
                                 </div>
 
                             </div>
