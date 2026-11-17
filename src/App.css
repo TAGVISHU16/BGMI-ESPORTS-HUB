@@ -2707,6 +2707,48 @@ body {
     padding: 28px;
     transition: 0.3s ease;
     overflow: hidden;
+    position: relative;
+}
+
+.tournament-card-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.tournament-type,
+.tournament-status {
+    font-size: 12px;
+    padding: 5px 10px;
+    line-height: 1;
+    transform: translateY(1px);
+}
+
+.tournament-card-top .tournament-type {
+    position: relative;
+    top: 2px;
+}
+
+.favorite-btn {
+    margin-left: auto;
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    color: #999;
+    font-size: 27px;
+    line-height: 1;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.favorite-btn:hover {
+    color: #ff3c00;
+    transform: scale(1.12);
+}
+
+.favorite-btn.favorited {
+    color: #ff3c00;
 }
 
 .tournament-card:hover {
@@ -3992,3 +4034,25 @@ body {
     transition: width 0.3s ease;
 }
 
+/* MY FAVORITES BUTTON */
+.tournament-controls > button {
+    padding: 10px 18px;
+    background: #141414;
+    color: #ffffff;
+    border: 1px solid #292929;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: box-shadow 0.25s ease;
+}
+
+.tournament-controls > button:hover {
+    box-shadow: 0 0 12px rgba(255, 60, 0, 0.2);
+}
+
+.tournament-controls > button.filter-active {
+    background: #ff3c00;
+    color: white;
+    border-color: #ff3c00;
+}

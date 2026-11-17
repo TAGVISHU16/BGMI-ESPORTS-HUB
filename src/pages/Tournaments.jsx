@@ -53,6 +53,23 @@ function Tournaments() {
     );
     const [loading, setLoading] = useState(true);
 
+    const [favorites, setFavorites] = useState(() =>
+        JSON.parse(localStorage.getItem("favoriteTournaments") || "[]")
+    );
+
+    const toggleFavorite = (tournamentId) => {
+        const updatedFavorites = favorites.includes(tournamentId)
+            ? favorites.filter((id) => id !== tournamentId)
+            : [...favorites, tournamentId];
+
+        setFavorites(updatedFavorites);
+
+        localStorage.setItem(
+            "favoriteTournaments",
+            JSON.stringify(updatedFavorites)
+        );
+    };
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setTournaments(getTournaments());
@@ -86,6 +103,7 @@ function Tournaments() {
     const [search, setSearch] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
     const [activeStatus, setActiveStatus] = useState("All");
+    const [showFavorites, setShowFavorites] = useState(false);
 
     const filteredTournaments = tournaments.filter((tournament) => {
         const matchesSearch = (tournament.name || "")
@@ -100,7 +118,15 @@ function Tournaments() {
             activeStatus === "All" ||
             (tournament.status || "Upcoming") === activeStatus;
 
-        return matchesSearch && matchesFilter && matchesStatus;
+        const matchesFavorites =
+            !showFavorites || favorites.includes(tournament.id);
+
+        return (
+            matchesSearch &&
+            matchesFilter &&
+            matchesStatus &&
+            matchesFavorites
+        );
     });
 
     return (
@@ -152,6 +178,13 @@ function Tournaments() {
                     ))}
                 </div>
 
+                <button
+                    className={showFavorites ? "filter-active" : ""}
+                    onClick={() => setShowFavorites(!showFavorites)}
+                >
+                    ♥ My Favorites
+                </button>
+
             </section>
 
             <section className="tournament-container">
@@ -177,6 +210,16 @@ function Tournaments() {
                                 >
                                     {tournament.status || "Upcoming"}
                                 </span>
+
+                                <button
+                                    type="button"
+                                    className={`favorite-btn ${favorites.includes(tournament.id) ? "favorited" : ""
+                                        }`}
+                                    onClick={() => toggleFavorite(tournament.id)}
+                                    aria-label="Toggle favourite"
+                                >
+                                    {favorites.includes(tournament.id) ? "♥" : "♡"}
+                                </button>
                             </div>
 
                             <h2>{tournament.name}</h2>
@@ -227,6 +270,7 @@ function Tournaments() {
                                 setSearch("");
                                 setActiveFilter("All");
                                 setActiveStatus("All");
+                                setShowFavorites(false);
                             }}
                         >
                             Reset Filters
