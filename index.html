@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bgmi-esports-hub</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .website-loader {
+      position: fixed;
+      inset: 0;
+      background: #080808;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      z-index: 999999;
+    }
+
+    .loader-glow {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      background: #ff3c00;
+      filter: blur(150px);
+      opacity: 0.2;
+      border-radius: 50%;
+    }
+
+    .loader-content {
+      position: relative;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+    }
+
+    .loader-logo {
+      color: white;
+      font-size: 55px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-shadow: 0 0 25px rgba(255, 60, 0, 0.5);
+    }
+
+    .loader-logo span {
+      display: block;
+      color: #ff3c00;
+      font-size: 17px;
+      letter-spacing: 8px;
+      margin-top: 8px;
+    }
+
+    .loader-line {
+      width: 65px;
+      height: 3px;
+      background: #ff3c00;
+      margin: 30px auto;
+      box-shadow: 0 0 15px #ff3c00;
+    }
+
+    .loader-heading {
+      color: #ddd;
+      font-size: 12px;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+
+    .loader-bar {
+      width: 100%;
+      height: 5px;
+      background: #292929;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .loader-progress {
+      width: 35%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff3c00, #ff9b00);
+      box-shadow: 0 0 15px #ff3c00;
+      animation: loaderMove 1.5s infinite ease-in-out;
+    }
+
+    .loader-status {
+      color: #777;
+      font-size: 10px;
+      letter-spacing: 4px;
+      margin-top: 18px;
+    }
+
+    @keyframes loaderMove {
+      0% {
+        transform: translateX(-110%);
+      }
+
+      100% {
+        transform: translateX(310%);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .loader-logo {
+        font-size: 40px;
+      }
+
+      .loader-logo span {
+        font-size: 13px;
+        letter-spacing: 5px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="root">
+    <div class="website-loader">
+
+      <div class="loader-glow"></div>
+
+      <div class="loader-content">
+
+        <div class="loader-logo">
+          BGMI
+          <span>ESPORTS HUB</span>
+        </div>
+
+        <div class="loader-line"></div>
+
+        <p class="loader-heading">
+          PREPARING YOUR BATTLEGROUND
+        </p>
+
+        <div class="loader-bar">
+          <div class="loader-progress"></div>
+        </div>
+
+        <p class="loader-status">INITIALIZING...</p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
